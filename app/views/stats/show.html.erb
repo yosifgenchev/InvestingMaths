@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Dividend yield:</strong>
+  <%= @stat.dividend_yield %>
+</p>
+
+<p>
+  <strong>Current price:</strong>
+  <%= @stat.current_price %>
+</p>
+
+<p>
+  <strong>Drip years count:</strong>
+  <%= @stat.drip_years_count %>
+</p>
+
+<p>
+  <strong>Stock:</strong>
+  <%= @stat.stock %>
+</p>
+
+<%= link_to 'Edit', edit_stat_path(@stat) %> |
+<%= link_to 'Back', stats_path %>

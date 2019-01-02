@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  dividend_yield: 9.99
+  current_price: 9.99
+  drip_years_count: 1
+  stock: one
+
+two:
+  dividend_yield: 9.99
+  current_price: 9.99
+  drip_years_count: 1
+  stock: two

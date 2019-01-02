@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Symbol:</strong>
+  <%= @stock.symbol %>
+</p>
+
+<p>
+  <strong>Company name:</strong>
+  <%= @stock.company_name %>
+</p>
+
+<p>
+  <strong>Stats:</strong>
+  <% @stock.stats.each do |stat| %>
+
+	  Dividend yield:
+	  <%= stat.dividend_yield %>
+	  
+	  Current price:
+	  <%= stat.current_price %>
+	  
+	  Number of years paying dividends:
+	  <%= stat.drip_years_count %>
+
+  <% end %>
+
+
+
+</p>
+
+<%= link_to 'Edit', edit_stock_path(@stock) %> |
+<%= link_to 'Back', stocks_path %>
