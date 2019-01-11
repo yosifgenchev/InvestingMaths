@@ -3,7 +3,7 @@ namespace :dgrs do
 
 	task update_dgrs: :environment do
 
-			file = SimpleXlsxReader.open('./../../data/InvestingMaths_01_2019.xlsx')
+			file = SimpleXlsxReader.open('/app/data/InvestingMaths_01_2019.xlsx')
 
 			#dgrs_json = JSON.parse(file, symbolize_names: true)
 
