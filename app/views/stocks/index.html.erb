@@ -75,20 +75,6 @@
             <p class="text-center"><%= stock.stats.last.dividend_yield %></p>
         </div>
 
-        <div class="col">
-            <p class="text-center">
-            <% if stock.dividend_change_percentage == 0 %>
-            <% elsif stock.dividend_change_percentage > 0 %>
-                <font color="green">&uArr;
-            <% else %>
-                <font color="red">&dArr;
-            <% end %>
-            <%= stock.dividend_change_percentage.abs %> %
-          </p>
-
-                </font>
-        </div>
-
         <% if stock.dgr.present? %>
 
           <div class="col">
