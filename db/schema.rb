@@ -12,13 +12,16 @@
 
 ActiveRecord::Schema.define(version: 2019_01_07_223108) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "dgrs", force: :cascade do |t|
     t.integer "dgr_1"
     t.integer "dgr_3"
     t.integer "dgr_5"
     t.integer "dgr_10"
     t.integer "mr_inc"
-    t.integer "stock_id"
+    t.bigint "stock_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["stock_id"], name: "index_dgrs_on_stock_id"
@@ -28,7 +31,7 @@ ActiveRecord::Schema.define(version: 2019_01_07_223108) do
     t.decimal "dividend_yield"
     t.decimal "current_price"
     t.integer "drip_years_count"
-    t.integer "stock_id"
+    t.bigint "stock_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["stock_id"], name: "index_stats_on_stock_id"
@@ -43,4 +46,6 @@ ActiveRecord::Schema.define(version: 2019_01_07_223108) do
     t.string "industry"
   end
 
+  add_foreign_key "dgrs", "stocks"
+  add_foreign_key "stats", "stocks"
 end
