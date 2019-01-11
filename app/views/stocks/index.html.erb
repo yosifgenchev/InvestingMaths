@@ -50,7 +50,7 @@
     </div>
 
 <% @stocks.each do |stock| %>
-      <% if stock.stats.last.dividend_yield > 3 %>
+      <% if stock.last_dividend_yield > 3 %>
           <br>
 
       <div class="row">
@@ -72,7 +72,21 @@
         </div>
 
         <div class="col">
-            <p class="text-center"><%= stock.stats.last.dividend_yield %></p>
+            <p class="text-center"><%= stock.last_dividend_yield %></p>
+        </div>
+
+        <div class="col">
+            <p class="text-center">
+            <% if stock.dividend_change_percentage == 0 %>
+            <% elsif stock.dividend_change_percentage > 0 %>
+                <font color="green">&uArr;
+            <% else %>
+                <font color="red">&dArr;
+            <% end %>
+            <%= stock.dividend_change_percentage.abs %> %
+          </p>
+
+                </font>
         </div>
 
         <% if stock.dgr.present? %>
