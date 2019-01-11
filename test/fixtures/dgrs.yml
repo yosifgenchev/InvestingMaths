@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  dgr_1: 1
+  dgr_3: 1
+  dgr_5: 1
+  dgr_10: 1
+  mr_inc: 1
+  stock: one
+
+two:
+  dgr_1: 1
+  dgr_3: 1
+  dgr_5: 1
+  dgr_10: 1
+  mr_inc: 1
+  stock: two

@@ -4,7 +4,8 @@ class StocksController < ApplicationController
   # GET /stocks
   # GET /stocks.json
   def index
-    @stocks = Stock.joins(:stats).order("stats.dividend_yield DESC")
+    #@stocks = Stock.includes(:stats).order("stats.dividend_yield DESC")
+    @stocks = Stock.all.sort_by(&:im_index).reverse!
   end
 
   # GET /stocks/1

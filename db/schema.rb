@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_30_222312) do
+ActiveRecord::Schema.define(version: 2019_01_07_223108) do
+
+  create_table "dgrs", force: :cascade do |t|
+    t.integer "dgr_1"
+    t.integer "dgr_3"
+    t.integer "dgr_5"
+    t.integer "dgr_10"
+    t.integer "mr_inc"
+    t.integer "stock_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["stock_id"], name: "index_dgrs_on_stock_id"
+  end
 
   create_table "stats", force: :cascade do |t|
     t.decimal "dividend_yield"

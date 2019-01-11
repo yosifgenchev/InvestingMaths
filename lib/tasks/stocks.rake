@@ -25,9 +25,16 @@ namespace :stocks do
 			result = IexTradingApi.get_stock_stats_batch(input)
 
 			result.each do |item|
-				stock = Stock.create(symbol: item[1][:company][:symbol], company_name: item[1][:company][:companyName], sector: item[1][:company][:sector], industry: item[1][:company][:industry])
+				# stock = Stock.create(symbol: item[1][:company][:symbol], company_name: item[1][:company][:companyName], sector: item[1][:company][:sector], industry: item[1][:company][:industry])
 
-				Stat.create(stock: stock, dividend_yield: item[1][:stats][:dividendYield])
+				symbol_data = item[1][:company][:symbol]
+				stock = Stock.find_by(symbol: symbol_data)
+
+				if stock.nil?
+					puts "Missing object for #{symbol_data}"
+				else
+					Stat.create(stock: stock, dividend_yield: item[1][:stats][:dividendYield])
+				end
 		end
 
 		end
