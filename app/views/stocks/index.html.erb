@@ -49,7 +49,8 @@
         </div>
     </div>
 
-<% @stocks.each do |stock| %>
+<% cache(@stocks) do %>
+  <% @stocks.each do |stock| %>
       <% if stock.last_dividend_yield > 3 %>
           <br>
 
@@ -112,17 +113,12 @@
 
         <% end %>
 
-<!--         <div class="col">
-          <%= link_to 'Show', stock %>
-          <%= link_to 'Edit', edit_stock_path(stock) %>
-          <%= link_to 'Destroy', stock, method: :delete, data: { confirm: 'Are you sure?' } %>
-        </div> -->
         </div>
 
       <% end %>
-    <% end %>
 
+    <% end %>
+<% end %>
 <br>
 
-<%= link_to 'New Stock', new_stock_path %>
 </div>

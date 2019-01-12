@@ -4,11 +4,14 @@ class Stock < ApplicationRecord
 
 	validates_uniqueness_of :symbol
 
-  @dividend_change_percent
-  @im_index
-
   def last_two_stats
-    stats.order(created_at: :desc).limit(2)
+    date_key = self.updated_at
+
+    cache_key = "lastTwoStatsData|#{id}|#{date_key}"
+
+    Rails.cache.fetch(cache_key, expires_in: 12.hours) do
+      stats.order(created_at: :desc).limit(2)
+    end
   end
 
   def dividend_change
@@ -16,28 +19,24 @@ class Stock < ApplicationRecord
   end
 
   def dividend_change_percentage
-
-    if @dividend_change_percent.nil?
-  	   @dividend_change_percent = ((dividend_change() * 100) / last_two_stats[0].dividend_yield).round(2)
-    end
-
-    @dividend_change_percent
+  	((dividend_change() * 100) / last_two_stats[0].dividend_yield).round(2)
   end
 
   def last_dividend_yield
-    if @last_dividend_yield.nil?
-      @last_dividend_yield = stats.last.dividend_yield
-    end
-    @last_dividend_yield
+    stats.last.dividend_yield
   end
 
-
   def im_index
-    if (dgr.present?)
-      @im_index = ((dgr.dgr_1 + dgr.dgr_3 + dgr.dgr_5 + dgr.dgr_10 + dgr.dgr_10)/5 + dgr.mr_inc + last_dividend_yield**2).round(1)
-    else
-      @im_index = 0
+    date_key = self.updated_at
+
+    cache_key = "imIndexData|#{id}|#{date_key}"
+
+    Rails.cache.fetch(cache_key, expires_in: 12.hours) do
+        if (dgr.present?)
+          ((dgr.dgr_1 + dgr.dgr_3 + dgr.dgr_5 + dgr.dgr_10 + dgr.dgr_10)/5 + dgr.mr_inc + last_dividend_yield**2).round(1)
+        else
+          0
+        end
     end
-    @im_index
   end
 end
