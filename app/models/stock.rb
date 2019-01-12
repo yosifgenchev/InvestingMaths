@@ -4,15 +4,12 @@ class Stock < ApplicationRecord
 
 	validates_uniqueness_of :symbol
 
-  @dividend_change_percent
-  @im_index
-
   def last_two_stats
     stats.order(created_at: :desc).limit(2)
   end
 
   def dividend_change_percentage
-    ((dividend_change * 100) / last_two_stats[0].dividend_yield).round(2) if @dividend_change_percent.nil?
+    ((dividend_change * 100) / last_two_stats[0].dividend_yield).round(2)
   end
 
   def last_dividend_yield
