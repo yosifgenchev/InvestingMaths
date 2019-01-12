@@ -9,7 +9,7 @@ class Stock < ApplicationRecord
 
     cache_key = "lastTwoStatsData|#{id}|#{date_key}"
 
-    Rails.cache.fetch(cache_key, expires_in: 12.hours) do
+    Rails.cache.fetch(cache_key, expires_in: 1.hours) do
       stats.order(created_at: :desc).limit(2)
     end
   end
@@ -31,7 +31,7 @@ class Stock < ApplicationRecord
 
     cache_key = "imIndexData|#{id}|#{date_key}"
 
-    Rails.cache.fetch(cache_key, expires_in: 12.hours) do
+    Rails.cache.fetch(cache_key, expires_in: 1.hours) do
         if (dgr.present?)
           ((dgr.dgr_1 + dgr.dgr_3 + dgr.dgr_5 + dgr.dgr_10 + dgr.dgr_10)/5 + dgr.mr_inc + last_dividend_yield**2).round(1)
         else
