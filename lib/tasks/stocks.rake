@@ -38,4 +38,13 @@ namespace :stocks do
 
 		end
 	end
+
+	task add_logos: :environment do
+		require 'open-uri'
+		Stock.all.each do |stock|
+			open(Rails.root.join('logos', "#{stock.symbol}.png"), 'wb') do |file|
+			  file << open("https://storage.googleapis.com/iex/api/logos/#{stock.symbol}.png").read
+			end
+		end
+	end
 end
