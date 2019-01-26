@@ -1,0 +1,27 @@
+<%= form_with(model: earning, local: true) do |form| %>
+  <% if earning.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(earning.errors.count, "error") %> prohibited this earning from being saved:</h2>
+
+      <ul>
+      <% earning.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :actualEPS %>
+    <%= form.text_field :actualEPS %>
+  </div>
+
+  <div class="field">
+    <%= form.label :stock_id %>
+    <%= form.text_field :stock_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

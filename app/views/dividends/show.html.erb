@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Amount:</strong>
+  <%= @dividend.amount %>
+</p>
+
+<p>
+  <strong>Stock:</strong>
+  <%= @dividend.stock %>
+</p>
+
+<%= link_to 'Edit', edit_dividend_path(@dividend) %> |
+<%= link_to 'Back', dividends_path %>

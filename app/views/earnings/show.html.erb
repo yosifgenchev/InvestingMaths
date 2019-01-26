@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Actualeps:</strong>
+  <%= @earning.actualEPS %>
+</p>
+
+<p>
+  <strong>Stock:</strong>
+  <%= @earning.stock %>
+</p>
+
+<%= link_to 'Edit', edit_earning_path(@earning) %> |
+<%= link_to 'Back', earnings_path %>

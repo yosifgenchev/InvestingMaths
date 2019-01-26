@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :dividends
+  resources :earnings
+  devise_for :users
   resources :dgrs
   resources :stats
   resources :stocks
