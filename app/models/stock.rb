@@ -50,17 +50,17 @@ class Stock < ApplicationRecord
   end
 
   def dividend_payout_ratio
-    if dividend.present? and earning.present?
+    if last_dividends.present? and last_earnings.present?
         div = 0
         eps = 0
-        dividend.each do |d|
+        last_dividends.each do |d|
           if d.amount.present?
               div = div + d.amount
           else
             div = div + 0
           end
         end
-        earning.each do |e|
+        last_earnings.each do |e|
           if e.actualEPS.present?
               eps = eps + e.actualEPS
           else
@@ -87,7 +87,6 @@ class Stock < ApplicationRecord
   def im_index
     date_key = self.updated_at
 
-    x = dividend_payout_ratio.dup
     cache_key = "imIndexData|#{id}|#{date_key}"
 
     Rails.cache.fetch(cache_key, expires_in: 1.hours) do
