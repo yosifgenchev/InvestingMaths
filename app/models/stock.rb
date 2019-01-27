@@ -73,6 +73,16 @@ class Stock < ApplicationRecord
     end
   end
 
+  def dgr_median
+    date_key = self.updated_at
+
+    cache_key = "lastDgrData|#{id}|#{date_key}"
+
+    Rails.cache.fetch(cache_key, expires_in: 1.hours) do
+        (dgr.dgr_1 + dgr.dgr_3 + dgr.dgr_5 + dgr.dgr_10 + dgr.dgr_10)/10
+    end
+  end
+
   def calculate
     x = dividend_payout_ratio
     if x > 100
@@ -92,7 +102,7 @@ class Stock < ApplicationRecord
     Rails.cache.fetch(cache_key, expires_in: 1.hours) do
         if (dgr.present?)
           # ((dgr.dgr_1 + dgr.dgr_3 + dgr.dgr_5 + dgr.dgr_10 + dgr.dgr_10)/5 + dgr.mr_inc + last_dividend_yield**2).round(1)
-            ((dgr.dgr_1 + dgr.dgr_3 + dgr.dgr_5 + dgr.dgr_10 + dgr.dgr_10)/10 + last_dividend_yield**2 + calculate).round(1)
+            (dgr_median + last_dividend_yield**2 + calculate).round(1)
         else
           0
         end

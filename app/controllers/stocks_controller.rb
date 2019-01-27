@@ -20,6 +20,15 @@ class StocksController < ApplicationController
 
   # GET /stocks/1/edit
   def edit
+    @stock = Stock.find(params[:id])
+    authorize @stock
+    if @stock.edit(stock_params)
+      flash[:notice] = "\"#{@stock.symbol}\" was successfully updated."
+      redirect_to @stock
+    else
+      flash.now[:alert] = "There was an error updating the stock."
+      render :index
+    end
   end
 
   # POST /stocks
@@ -41,25 +50,49 @@ class StocksController < ApplicationController
   # PATCH/PUT /stocks/1
   # PATCH/PUT /stocks/1.json
   def update
-    respond_to do |format|
-      if @stock.update(stock_params)
-        format.html { redirect_to @stock, notice: 'Stock was successfully updated.' }
-        format.json { render :show, status: :ok, location: @stock }
-      else
-        format.html { render :edit }
-        format.json { render json: @stock.errors, status: :unprocessable_entity }
-      end
+
+    @stock = Stock.find(params[:id])
+    authorize @stock
+    
+    if @stock.update(stock_params)
+      flash[:notice] = "\"#{@stock.symbol}\" was successfully updated."
+      redirect_to @stock
+    else
+      flash.now[:alert] = "There was an error updating the stock."
+      render :index
     end
+
+    # respond_to do |format|
+    #   if @stock.update(stock_params)
+    #     format.html { redirect_to @stock, notice: 'Stock was successfully updated.' }
+    #     format.json { render :show, status: :ok, location: @stock }
+    #   else
+    #     format.html { render :edit }
+    #     format.json { render json: @stock.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # DELETE /stocks/1
   # DELETE /stocks/1.json
   def destroy
-    @stock.destroy
-    respond_to do |format|
-      format.html { redirect_to stocks_url, notice: 'Stock was successfully destroyed.' }
-      format.json { head :no_content }
+    @stock = Stock.find(params[:id])
+    authorize @stock
+    
+    if @stock.destroy
+      flash[:notice] = "\"#{@stock.symbol}\" was successfully deleted."
+      redirect_to @stock
+    else
+      flash.now[:alert] = "There was an error deleting the stock."
+      render :index
     end
+
+
+    # @stock.destroy
+    # respond_to do |format|
+    #   format.html { redirect_to stocks_url, notice: 'Stock was successfully destroyed.' }
+    #   format.json { head :no_content }
+    # end
   end
 
   private

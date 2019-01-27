@@ -1,5 +1,5 @@
 class DividendsController < ApplicationController
-  before_action :set_dividend, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :authorization, :set_dividend, only: [:show, :edit, :update, :destroy]
 
   # GET /dividends
   # GET /dividends.json
@@ -54,10 +54,16 @@ class DividendsController < ApplicationController
   # DELETE /dividends/1
   # DELETE /dividends/1.json
   def destroy
-    @dividend.destroy
-    respond_to do |format|
-      format.html { redirect_to dividends_url, notice: 'Dividend was successfully destroyed.' }
-      format.json { head :no_content }
+
+    @dividend = Dividend.find(params[:id])
+    authorize @dividend
+    
+    if @dividend.destroy
+      flash[:notice] = "\"#{@dividend.symbol}\" was successfully deleted."
+      redirect_to @dividend
+    else
+      flash.now[:alert] = "There was an error deleting the dividend."
+      render :index
     end
   end
 
@@ -70,5 +76,11 @@ class DividendsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def dividend_params
       params.require(:dividend).permit(:amount, :stock_id)
+    end
+
+    private
+
+    def authorization
+      authorize(Dividend)
     end
 end

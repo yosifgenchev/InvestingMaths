@@ -1,5 +1,5 @@
 class EarningsController < ApplicationController
-  before_action :set_earning, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :set_earning, only: [:show, :edit, :update, :destroy]
 
   # GET /earnings
   # GET /earnings.json

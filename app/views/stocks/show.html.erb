@@ -1,5 +1,7 @@
-<p id="notice"><%= notice %></p>
+<%= notice %>
+<%= link_to 'Stocks', stocks_path %>
 
+<p/>
 <p>
   <strong>Symbol:</strong>
   <%= @stock.symbol %>
@@ -14,14 +16,7 @@
   <strong>Stats:</strong>
   <% @stock.stats.each do |stat| %>
 
-	  Dividend yield:
-	  <%= stat.dividend_yield %>
-	  
-	  Current price:
-	  <%= stat.current_price %>
-	  
-	  Number of years paying dividends:
-	  <%= stat.drip_years_count %>
+	  <p>Dividend yield: <%= stat.dividend_yield %></p>
 
   <% end %>
 
@@ -29,5 +24,6 @@
 
 </p>
 
-<%= link_to 'Edit', edit_stock_path(@stock) %> |
-<%= link_to 'Back', stocks_path %>
+<% if policy(@stock).update? %>
+    <%= link_to "Edit", edit_stock_path(@stock), method: :update, class: 'btn btn-danger' %>
+<% end %>
