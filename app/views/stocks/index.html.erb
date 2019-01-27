@@ -17,22 +17,22 @@
           <p class="text-center font-weight-bold">Industry</p>
         </div>
         <div class="col">
-          <p class="text-center font-weight-bold">Dividend Yield</p>
+          <p class="text-center font-weight-bold">Dividend Yield %</p>
         </div>
         <div class="col">
-          <p class="text-center font-weight-bold">Change</p>
+          <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Change in dividend yield since yesterday">Change %</p>
         </div>
         <div class="col">
-          <p class="text-center font-weight-bold">DGR 10yr median</p>
+          <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Dividend growth ratio for 10 years - median">DGR %</p>
         </div>
         <div class="col">
-          <p class="text-center font-weight-bold">MR% Inc</p>
+          <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Most recent dividend increase information">MR Inc %</p>
         </div>
         <div class="col">
-          <p class="text-center font-weight-bold">DPR</p>
+          <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Dividend payout ratio for the last year">DPR %</p>
         </div>
         <div class="col">
-          <p class="text-center font-weight-bold">IM Index</p>
+          <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Experimental">IM Index</p>
         </div>
     </div>
 
@@ -71,7 +71,7 @@
             <% else %>
                 <font color="red">&dArr;
             <% end %>
-            <%= stock.dividend_change_percentage.abs %> %
+            <%= stock.dividend_change_percentage.abs %>
           </p>
 
                 </font>
@@ -80,10 +80,10 @@
         <% if stock.dgr.present? %>
 
           <div class="col">
-            <p class="text-center"><%= stock.dgr_median %> %</p>
+            <p class="text-center"><%= stock.dgr_median %></p>
           </div>
           <div class="col">
-            <p class="text-center"><%= stock.dgr.mr_inc %> %</p>
+            <p class="text-center"><%= stock.dgr.mr_inc %></p>
           </div>
 
         <% end %>
@@ -96,7 +96,7 @@
             <% else %>
                 <font color="red">
             <% end %>
-            <%= stock.dividend_payout_ratio %> %
+            <%= stock.dividend_payout_ratio %>
           </p>
 
                 </font>
