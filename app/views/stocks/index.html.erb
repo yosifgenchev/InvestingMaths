@@ -48,7 +48,7 @@
 
 <% cache(@stocks) do %>
   <% @stocks.each do |stock| %>
-      <% if stock.last_dividend_yield > 0 %>
+      <% if stock.last_dividend_yield > 0 and stock.dgr.present? %>
           <br>
 
       <div class="row">
