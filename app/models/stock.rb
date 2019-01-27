@@ -1,7 +1,7 @@
 class Stock < ApplicationRecord
 	has_many :stats, -> { order(created_at: :desc) }
-  has_many :earning, -> { order(created_at: :desc) }
-  has_many :dividend, -> { order(created_at: :desc) }
+  has_many :earning
+  has_many :dividend
   has_one :dgr
 
 	validates_uniqueness_of :symbol
