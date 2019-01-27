@@ -46,7 +46,7 @@ class Stock < ApplicationRecord
   end
 
   def last_dividend_yield
-    stats.last.dividend_yield
+    stats.last.dividend_yield.round(2)
   end
 
   def dividend_payout_ratio

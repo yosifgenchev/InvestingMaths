@@ -20,7 +20,7 @@
           <p class="text-center font-weight-bold">Dividend Yield %</p>
         </div>
         <div class="col">
-          <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Change in dividend yield since yesterday">Change %</p>
+          <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Change in dividend yield % since yesterday">Change %</p>
         </div>
         <div class="col">
           <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Dividend growth ratio for 10 years - median">DGR %</p>
@@ -38,7 +38,7 @@
 
 <% cache(@stocks) do %>
   <% @stocks.each do |stock| %>
-      <% if stock.last_dividend_yield > 1 %>
+      <% if stock.last_dividend_yield > 0 %>
           <br>
 
       <div class="row">
@@ -60,11 +60,11 @@
         </div>
 
         <div class="col">
-            <p class="text-center"><%= stock.last_dividend_yield %></p>
+            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Dividend yield %"><%= stock.last_dividend_yield %></p>
         </div>
 
         <div class="col">
-            <p class="text-center">
+            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Change in dividend yield % since yesterday">
             <% if stock.dividend_change_percentage == 0 %>
             <% elsif stock.dividend_change_percentage > 0 %>
                 <font color="green">&uArr;
@@ -80,16 +80,16 @@
         <% if stock.dgr.present? %>
 
           <div class="col">
-            <p class="text-center"><%= stock.dgr_median %></p>
+            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Dividend growth ratio 10-yr median %"><%= stock.dgr_median %></p>
           </div>
           <div class="col">
-            <p class="text-center"><%= stock.dgr.mr_inc %></p>
+            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Most recent dividend increase %"><%= stock.dgr.mr_inc %></p>
           </div>
 
         <% end %>
 
         <div class="col">
-            <p class="text-center">
+            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Dividend payout ratio %">
             <% if stock.dividend_payout_ratio == 0 %>
             <% elsif stock.dividend_payout_ratio < 60 %>
                 <font color="green">
