@@ -54,14 +54,24 @@ namespace :stocks do
 				if stock.nil?
 					puts "Missing object for #{symbol_data}"
 				else
-					Earning.where(stock: stock).delete_all
+					# Earning.where(stock: stock).delete_all
 
 					puts "#{stock.symbol}"
-					
+
+					earnings_sum = 0
 					earnings.each do |earning|
-						puts "#{earning[:actualEPS]} EPS for fiscal period #{earning[:fiscalPeriod]}"
-						Earning.create(stock: stock, actualEPS: earning[:actualEPS])
+						amount = earning[:actualEPS]
+						if amount.is_a? Integer or amount.is_a? Float
+							earnings_sum = earnings_sum + amount
+						end
 					end
+					
+					stock.update_attribute(:earnings_amount, earnings_sum)
+
+					# earnings.each do |earning|
+					# 	puts "#{earning[:actualEPS]} EPS for fiscal period #{earning[:fiscalPeriod]}"
+					# 	Earning.create(stock: stock, actualEPS: earning[:actualEPS])
+					# end
 				end
 			end
 
@@ -81,14 +91,27 @@ namespace :stocks do
 				if stock.nil?
 					puts "Missing object for #{symbol_data}"
 				else
-					Dividend.where(stock: stock).delete_all
+					# Dividend.where(stock: stock).delete_all
 
 					puts "#{stock.symbol}"
-					
+
+					# dividends_sum = dividends.inject(0){ |sum,x| sum + x[:amount] }
+
+					dividends_sum = 0
 					dividends.each do |dividend|
-						puts "#{dividend[:amount]} dividend declared at #{dividend[:declaredDate]}"
-						Dividend.create(stock: stock, amount: dividend[:amount])
+						amount = dividend[:amount]
+						if amount.is_a? Integer or amount.is_a? Float
+							dividends_sum = dividends_sum + amount
+						end
 					end
+
+					puts "#{dividends_sum}"
+					
+					stock.update_attribute(:dividends_amount, dividends_sum)
+					# dividends.each do |dividend|
+					# 	puts "#{dividend[:amount]} dividend declared at #{dividend[:declaredDate]}"
+					# 	Dividend.create(stock: stock, amount: dividend[:amount])
+					# end
 				end
 			end
 

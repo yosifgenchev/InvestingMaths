@@ -1,7 +1,5 @@
 class Stock < ApplicationRecord
 	has_many :stats, -> { order(created_at: :desc) }
-  has_many :earning
-  has_many :dividend
   has_one :dgr
 
 	validates_uniqueness_of :symbol
@@ -17,26 +15,6 @@ class Stock < ApplicationRecord
 
   end
 
-  def last_earnings
-    date_key = self.updated_at
-
-    cache_key = "lastEarningsData|#{id}|#{date_key}"
-
-    Rails.cache.fetch(cache_key, expires_in: 1.hours) do
-      earning.all
-    end
-  end
-
-  def last_dividends
-    date_key = self.updated_at
-
-    cache_key = "lastDividendsData|#{id}|#{date_key}"
-
-    Rails.cache.fetch(cache_key, expires_in: 1.hours) do
-      dividend.all
-    end
-  end
-
   def dividend_change
   	last_two_stats[0].dividend_yield - last_two_stats[1].dividend_yield
   end
@@ -50,24 +28,8 @@ class Stock < ApplicationRecord
   end
 
   def dividend_payout_ratio
-    if last_dividends.present? and last_earnings.present?
-        div = 0
-        eps = 0
-        last_dividends.each do |d|
-          if d.amount.present?
-              div = div + d.amount
-          else
-            div = div + 0
-          end
-        end
-        last_earnings.each do |e|
-          if e.actualEPS.present?
-              eps = eps + e.actualEPS
-          else
-            eps = eps + 0
-          end
-        end
-        ((div / eps) * 100).round(1)
+    if self.dividends_amount.present? and self.earnings_amount.present?
+        ((self.dividends_amount / self.earnings_amount) * 100).round(1)
     else
       0
     end
@@ -102,10 +64,44 @@ class Stock < ApplicationRecord
     Rails.cache.fetch(cache_key, expires_in: 1.hours) do
         if (dgr.present?)
           # ((dgr.dgr_1 + dgr.dgr_3 + dgr.dgr_5 + dgr.dgr_10 + dgr.dgr_10)/5 + dgr.mr_inc + last_dividend_yield**2).round(1)
-            (dgr_median + last_dividend_yield**2 + calculate).round(1)
+            (dgr_median + last_dividend_yield + last_dividend_yield*calculate).round(1)
         else
           0
         end
     end
   end
+
+   filterrific(
+     available_filters: [
+       :search_query
+     ]
+   )
+
+  scope :search_query, lambda { |query|
+    return nil if query.blank?
+    # condition query, parse into individual keywords
+    terms = query.downcase.split(/\s+/)
+    # replace "*" with "%" for wildcard searches,
+    # append '%', remove duplicate '%'s
+    terms = terms.map { |e|
+      (e.gsub('*', '%') + '%').gsub(/%+/, '%')
+    }
+    # configure number of OR conditions for provision
+    # of interpolation arguments. Adjust this if you
+    # change the number of OR conditions.
+    num_or_conditions = 4
+    where(
+      terms.map {
+        or_clauses = [
+          "LOWER(stocks.symbol) LIKE ?",
+          "LOWER(stocks.company_name) LIKE ?",
+          "LOWER(stocks.sector) LIKE ?",
+          "LOWER(stocks.industry) LIKE ?"
+        ].join(' OR ')
+        "(#{ or_clauses })"
+      }.join(' AND '),
+      *terms.map { |e| [e] * num_or_conditions }.flatten
+    )
+  }
+
 end

@@ -17,6 +17,8 @@
 //= require popper
 //= require bootstrap
 //= require bootstrap-sprockets
+//= require filterrific/filterrific-jquery
+
 $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })

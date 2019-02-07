@@ -1,11 +1,24 @@
 class StocksController < ApplicationController
   before_action :authenticate_user!, :set_stock, only: [:show, :edit, :update, :destroy]
+  helper_method :sort_column, :sort_direction
 
   # GET /stocks
   # GET /stocks.json
   def index
     #@stocks = Stock.includes(:stats).order("stats.dividend_yield DESC")
-    @stocks = Stock.all.sort_by(&:last_dividend_yield).reverse!
+    # @stocks = Kaminari.paginate_array(Stock.all.sort_by(&:im_index).reverse!).page(params[:page]).per(100)
+    # @stocks = Stock.order(sort_column + " " + sort_direction)
+
+    @filterrific = initialize_filterrific(
+     Stock,
+     params[:filterrific]
+   ) or return
+   @stocks = @filterrific.find.page(params[:page])
+
+   respond_to do |format|
+     format.html
+     format.js
+   end
   end
 
   # GET /stocks/1
@@ -104,5 +117,13 @@ class StocksController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def stock_params
       params.require(:stock).permit(:symbol, :company_name)
+    end
+
+    def sort_column
+      Stock.column_names.include?(params[:sort]) ? params[:sort] : "dividend_payout_ratio"
+    end
+    
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
     end
 end

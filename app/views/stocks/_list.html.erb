@@ -1,20 +1,46 @@
-<p id="notice"><%= notice %></p>
+<div id="filterrific_results">
 
-<div class="container-fluid">
+  <div class="row">
+    <div class="col">
+      <p class="text-right"><%= page_entries_info stocks %></p>
+    </div>
+  </div>
 
     <div class="row">
-      <div class="col">
-         <h3 class="text-center">U.S. Dividend Champions, Contenders and Challengers</p>
-         </h3>
-         <p class="text-center">Champion dividend stocks sustain 25 or more annual dividend increases; Contenders show 10-24; Challengers have 5-9</p>
-      </div>
+        <div class="col">
+          <p class="text-center font-weight-bold">Ticker</p>
+        </div>
+        <div class="col-md-2">
+          <p class="text-center font-weight-bold">Company</p>
+        </div>
+        <div class="col">
+          <p class="text-center font-weight-bold">Sector</p>
+        </div>
+        <div class="col">
+          <p class="text-center font-weight-bold">Industry</p>
+        </div>
+        <div class="col">
+          <p class="text-center font-weight-bold" >Dividend Yield %</p>
+        </div>
+        <div class="col">
+          <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Change in dividend yield % since yesterday">Change %</p>
+        </div>
+        <div class="col">
+          <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Dividend growth ratio for 10 years - median">DGR %</p>
+        </div>
+        <div class="col">
+          <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Most recent dividend increase information">MR Inc %</p>
+        </div>
+        <div class="col">
+          <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Dividend payout ratio for the last year">DPR %</p>
+        </div>
+        <div class="col">
+          <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Experimental">IM Index</p>
+        </div>
     </div>
 
-    <p/>
+  <% cache(@stocks) do %>
 
-<% 
-=begin %>y
-<% cache(@stocks) do %>
   <% @stocks.each do |stock| %>
       <% if stock.last_dividend_yield > 0 and stock.dgr.present? %>
           <br>
@@ -93,34 +119,7 @@
 
     <% end %>
 <% end %>
-
-<% 
-=end %>
-
-<div class="row">
-  <div class="col">
-    <%= form_for_filterrific @filterrific do |f| %>
-      <div>
-        Search
-        <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
-        <%= f.text_field(
-          :search_query,
-          class: 'filterrific-periodically-observed'
-        ) %>
-          <%= render_filterrific_spinner %>
-
-      </div>
-
-      <%# add an automated spinner to your form when the list is refreshed %>
-    <% end %>
-  </div>
+    <div class="apple_pagination">
+  <%= will_paginate stocks, :container => false%>
 </div>
-
-<%= render(
-  partial: 'stocks/list',
-  locals: { stocks: @stocks }
-) %>
-
-<br>
-
 </div>
