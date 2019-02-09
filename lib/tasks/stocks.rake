@@ -27,15 +27,15 @@ namespace :stocks do
 				symbol_data = item[1][:company][:symbol]
 				stock = Stock.find_by(symbol: symbol_data)
 
-				# if stock.nil?
-				# 	stock = Stock.create(symbol: item[1][:company][:symbol], company_name: item[1][:company][:companyName], sector: item[1][:company][:sector], industry: item[1][:company][:industry])
-				# end
-
 				if stock.nil?
-					puts "Missing object for #{symbol_data}"
-				else
-					Stat.create(stock: stock, dividend_yield: item[1][:stats][:dividendYield])
+					stock = Stock.create(symbol: item[1][:company][:symbol], company_name: item[1][:company][:companyName], sector: item[1][:company][:sector], industry: item[1][:company][:industry])
 				end
+
+				# if stock.nil?
+				# 	puts "Missing object for #{symbol_data}"
+				# else
+				# 	Stat.create(stock: stock, dividend_yield: item[1][:stats][:dividendYield])
+				# end
 		end
 
 		end
