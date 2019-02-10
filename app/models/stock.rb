@@ -56,7 +56,7 @@ class Stock < ApplicationRecord
     end
   end
 
-  def im_index
+  def im_index_func
     date_key = self.updated_at
 
     cache_key = "imIndexData|#{id}|#{date_key}"
@@ -72,7 +72,9 @@ class Stock < ApplicationRecord
   end
 
    filterrific(
+     default_filter_params: { sorted_by: "im_index_desc" },
      available_filters: [
+       :sorted_by,
        :search_query
      ]
    )
@@ -102,6 +104,18 @@ class Stock < ApplicationRecord
       }.join(' AND '),
       *terms.map { |e| [e] * num_or_conditions }.flatten
     )
+  }
+
+  scope :sorted_by, ->(sort_option) {
+    direction = /desc$/.match?(sort_option) ? "desc" : "asc"
+    case sort_option.to_s
+    when /^im_index/
+      order("stocks.im_index #{direction}")
+    when /^last_dividend_yield/
+      order("LOWER(stocks.last_dividend_yield) #{direction}")
+    else
+      raise(ArgumentError, "Invalid sort option: #{sort_option.inspect}")
+    end
   }
 
 end

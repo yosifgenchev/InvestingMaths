@@ -13,7 +13,7 @@
         <div class="col-md-2">
           <p class="text-center font-weight-bold">Company</p>
         </div>
-        <div class="col">
+        <div class="col d-none d-xl-block">
           <p class="text-center font-weight-bold">Sector</p>
         </div>
         <div class="col">
@@ -28,7 +28,7 @@
         <div class="col">
           <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Dividend growth ratio for 10 years - median">DGR %</p>
         </div>
-        <div class="col">
+        <div class="col d-none d-xl-block">
           <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Most recent dividend increase information">MR Inc %</p>
         </div>
         <div class="col">
@@ -48,14 +48,14 @@
       <div class="row">
 
         <div class="col">
-          <p class="text-center"><%= link_to stock.symbol, "https://www.morningstar.com/stocks/XNYS/" + stock.symbol + "/quote.html", target: :_blank %></p>
+          <p class="text-center font-weight-bold"><%= link_to stock.symbol, "https://www.morningstar.com/stocks/XNYS/" + stock.symbol + "/quote.html", target: :_blank %></p>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-2 font-weight-bold">
             <%= stock.company_name %>
         </div>
 
-        <div class="col">
+        <div class="col d-none d-xl-block">
             <p class="text-center"><%= stock.sector %></p>
         </div>
 
@@ -64,11 +64,11 @@
         </div>
 
         <div class="col">
-            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Dividend yield %"><%= stock.last_dividend_yield %></p>
+            <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Dividend yield %"><%= stock.last_dividend_yield %></p>
         </div>
 
         <div class="col">
-            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Change in dividend yield % since yesterday">
+            <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Change in dividend yield % since yesterday">
             <% if stock.dividend_change_percentage == 0 %>
             <% elsif stock.dividend_change_percentage > 0 %>
                 <font color="green">&uArr;
@@ -84,16 +84,16 @@
         <% if stock.dgr.present? %>
 
           <div class="col">
-            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Dividend growth ratio 10-yr median %"><%= stock.dgr_median %></p>
+            <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Dividend growth ratio 10-yr median %"><%= stock.dgr_median %></p>
           </div>
-          <div class="col">
-            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Most recent dividend increase %"><%= stock.dgr.mr_inc %></p>
+          <div class="col d-none d-xl-block">
+            <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Most recent dividend increase %"><%= stock.dgr.mr_inc %></p>
           </div>
 
         <% end %>
 
         <div class="col">
-            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Dividend payout ratio %">
+            <p class="text-center font-weight-bold" data-toggle="tooltip" data-placement="top" title="Dividend payout ratio %">
             <% if stock.dividend_payout_ratio == 0 %>
             <% elsif stock.dividend_payout_ratio < 60 %>
                 <font color="green">
@@ -108,7 +108,7 @@
         <% if stock.dgr.present? %>
 
           <div class="col">
-            <p class="text-center"><%= stock.im_index %></p>
+            <p class="text-center font-weight-bold"><%= stock.im_index %></p>
           </div>
         
         <% end %>

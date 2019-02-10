@@ -25,11 +25,11 @@ namespace :stocks do
 
 			result.each do |item|
 				symbol_data = item[1][:company][:symbol]
-				stock = Stock.find_by(symbol: symbol_data)
+				# stock = Stock.find_by(symbol: symbol_data)
 
-				if stock.nil?
+				# if stock.nil?
 					stock = Stock.create(symbol: item[1][:company][:symbol], company_name: item[1][:company][:companyName], sector: item[1][:company][:sector], industry: item[1][:company][:industry])
-				end
+				# end
 
 				# if stock.nil?
 				# 	puts "Missing object for #{symbol_data}"
@@ -71,6 +71,49 @@ namespace :stocks do
 					# earnings.each do |earning|
 					# 	puts "#{earning[:actualEPS]} EPS for fiscal period #{earning[:fiscalPeriod]}"
 					# 	Earning.create(stock: stock, actualEPS: earning[:actualEPS])
+					# end
+				end
+			end
+
+		end
+	end
+
+	task add_im_index_bulk: :environment do
+
+		input_array.each do |input|
+
+			puts "#{input}"
+			input.split(',').each do |item|
+				stock = Stock.find_by(symbol: item)
+
+				if stock.nil?
+					puts "Missing object for #{item}"
+				else
+					# Dividend.where(stock: stock).delete_all
+
+					puts "#{item}"
+
+					# dividends_sum = dividends.inject(0){ |sum,x| sum + x[:amount] }
+
+					# dividends_sum = 0
+					# dividends.each do |dividend|
+					# 	amount = dividend[:amount]
+					# 	if amount.is_a? Integer or amount.is_a? Float
+					# 		dividends_sum = dividends_sum + amount
+					# 	end
+					# end
+
+					im_index = stock.im_index_func
+					puts "#{im_index}"
+					
+					if im_index.infinite?
+						stock.update_attribute(:im_index, 0)
+					else
+						stock.update_attribute(:im_index, im_index)
+					end
+					# dividends.each do |dividend|
+					# 	puts "#{dividend[:amount]} dividend declared at #{dividend[:declaredDate]}"
+					# 	Dividend.create(stock: stock, amount: dividend[:amount])
 					# end
 				end
 			end

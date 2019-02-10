@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_06_222933) do
+ActiveRecord::Schema.define(version: 2019_02_10_094942) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 2019_02_06_222933) do
     t.string "industry"
     t.decimal "dividends_amount"
     t.decimal "earnings_amount"
+    t.integer "im_index"
   end
 
   create_table "users", force: :cascade do |t|

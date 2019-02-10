@@ -1,6 +1,6 @@
 class StocksController < ApplicationController
   before_action :authenticate_user!, :set_stock, only: [:show, :edit, :update, :destroy]
-  helper_method :sort_column, :sort_direction
+  # helper_method :sort_column, :sort_direction
 
   # GET /stocks
   # GET /stocks.json
@@ -11,7 +11,8 @@ class StocksController < ApplicationController
 
     @filterrific = initialize_filterrific(
      Stock,
-     params[:filterrific]
+     params[:filterrific],
+     :persistence_id => false,
    ) or return
    @stocks = @filterrific.find.page(params[:page])
 
@@ -109,21 +110,21 @@ class StocksController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_stock
-      @stock = Stock.find(params[:id])
-    end
+    # # Use callbacks to share common setup or constraints between actions.
+    # def set_stock
+    #   @stock = Stock.find(params[:id])
+    # end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def stock_params
-      params.require(:stock).permit(:symbol, :company_name)
-    end
+    # # Never trust parameters from the scary internet, only allow the white list through.
+    # def stock_params
+    #   params.require(:stock).permit(:symbol, :company_name)
+    # end
 
-    def sort_column
-      Stock.column_names.include?(params[:sort]) ? params[:sort] : "dividend_payout_ratio"
-    end
+    # def sort_column
+    #   Stock.column_names.include?(params[:sort]) ? params[:sort] : "dividend_payout_ratio"
+    # end
     
-    def sort_direction
-      %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
-    end
+    # def sort_direction
+    #   %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    # end
 end

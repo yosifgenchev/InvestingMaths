@@ -1,3 +1,11 @@
+// Body
+$body-bg: #ffffff;
+
+// Typography
+$font-size-base: 20px; // this changes the font-size throughout bootstrap
+$font-size-base: 1.1rem;
+$line-height-base: 1.6;
+
 @import "bootstrap";
 
 .apple_pagination {
