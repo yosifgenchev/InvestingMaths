@@ -31,12 +31,12 @@ namespace :stocks do
 					# stock = Stock.create(symbol: item[1][:company][:symbol], company_name: item[1][:company][:companyName], sector: item[1][:company][:sector], industry: item[1][:company][:industry])
 				# end
 
-				if stock.nil?
-					puts "Missing object for #{symbol_data}"
-				else
+				# if stock.nil?
+				# 	puts "Missing object for #{symbol_data}"
+				# else
 					puts "Adding stats info #{item[1][:stats]} for #{stock.symbol}"
 					Stat.create(stock: stock, dividend_yield: item[1][:stats][:dividendYield])
-				end
+				# end
 		end
 
 		end
