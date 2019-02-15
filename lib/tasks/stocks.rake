@@ -34,6 +34,7 @@ namespace :stocks do
 				if stock.nil?
 					puts "Missing object for #{symbol_data}"
 				else
+					puts "Adding stats info #{item[1][:stats]} for #{stock.symbol}"
 					Stat.create(stock: stock, dividend_yield: item[1][:stats][:dividendYield])
 				end
 		end
