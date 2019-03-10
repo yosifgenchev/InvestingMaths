@@ -75,7 +75,8 @@ class Stock < ApplicationRecord
      default_filter_params: { sorted_by: "im_index_desc" },
      available_filters: [
        :sorted_by,
-       :search_query
+       :search_query,
+       :by_sector
      ]
    )
 
@@ -118,4 +119,9 @@ class Stock < ApplicationRecord
     end
   }
 
+  scope :by_sector, -> (sector) { where(sector: sector) }
+
+  def self.options_for_by_sector
+    Stock.pluck(:sector).uniq
+  end
 end

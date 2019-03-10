@@ -103,6 +103,7 @@
       <div>
         Search
         <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+        <%= f.select(:by_sector, @filterrific.select_options[:by_sector], { include_blank: 'All' }, class: 'filterrific-periodically-observed') %>
         <%= f.text_field(
           :search_query,
           class: 'filterrific-periodically-observed'

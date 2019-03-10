@@ -10,16 +10,19 @@ class StocksController < ApplicationController
     # @stocks = Stock.order(sort_column + " " + sort_direction)
 
     @filterrific = initialize_filterrific(
-     Stock,
-     params[:filterrific],
-     :persistence_id => false,
-   ) or return
-   @stocks = @filterrific.find.page(params[:page])
+      Stock,
+      params[:filterrific],
+      select_options: {
+        by_sector: Stock.options_for_by_sector
+      },
+      :persistence_id => false,
+    ) or return
+    @stocks = @filterrific.find.page(params[:page])
 
-   respond_to do |format|
-     format.html
-     format.js
-   end
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # GET /stocks/1
