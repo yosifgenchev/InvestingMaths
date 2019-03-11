@@ -9,17 +9,17 @@
     <thead>
       <tr>
         <th>Ticker</th>
-        <th style="width: 20%">Company</th>
+        <th class="text-center" style="width: 20%">Company</th>
         <% if params[:filterrific].nil? || !params[:filterrific][:by_sector].present? %>
-          <th class="text-right">Sector</th>
+          <th class="text-center">Sector</th>
         <% end %>
-        <th class="text-right d-none d-md-table-cell" style="width: 20%;">Industry</th>
-        <th class="text-right d-none d-md-table-cell">Dividend Yield %</th>
-        <th class="text-right d-none d-md-table-cell" data-toggle="tooltip" data-placement="top" title="Change in dividend yield % since yesterday">Change %</th>
-        <th class="text-right d-none d-md-table-cell" data-toggle="tooltip" data-placement="top" title="Dividend growth ratio for 10 years - median">DGR %</th>
-        <th class="text-right d-none d-md-table-cell" data-toggle="tooltip" data-placement="top" title="Most recent dividend increase information">MR Inc %</th>
-        <th class="text-right d-none d-md-table-cell" data-toggle="tooltip" data-placement="top" title="Dividend payout ratio for the last year">DPR %</th>
-        <th class="text-right d-none d-md-table-cell" data-toggle="tooltip" data-placement="top" title="Experimental"><%= filterrific_sorting_link(@filterrific, :im_index, label: 'IM Index') %></th>
+        <th class="text-center d-none d-md-table-cell" style="width: 15%;">Industry</th>
+        <th class="text-center d-none d-md-table-cell" style="width: 10%;">Dividend Yield %</th>
+        <th class="text-center d-none d-md-table-cell" data-toggle="tooltip" data-placement="top" title="Change in dividend yield % since yesterday">Change %</th>
+        <th class="text-center d-none d-md-table-cell" data-toggle="tooltip" data-placement="top" title="Return on invested capital in % for the past TTM"><%= filterrific_sorting_link(@filterrific, :roic, label: 'ROIC %') %></th>
+        <th class="text-center d-none d-md-table-cell" data-toggle="tooltip" data-placement="top" title="Enterprise Value / EBIT"><%= filterrific_sorting_link(@filterrific, :ev_to_ebit, label: 'EV/EBIT') %></th></th>
+        <th class="text-center d-none d-md-table-cell" data-toggle="tooltip" data-placement="top" title="Dividend payout ratio for the last year">DPR %</th>
+        <th class="text-center d-none d-md-table-cell" data-toggle="tooltip" data-placement="top" title="Experimental"><%= filterrific_sorting_link(@filterrific, :im_index, label: 'IM Index') %></th>
       </tr>
     </thead>
 
@@ -38,17 +38,18 @@
                 <%= stock.last_dividend_yield %>
               </td>
               <td class="font-weight-bold text-right" data-toggle="tooltip" data-placement="top" title="Change in dividend yield % since yesterday">
+                <% if stock.dividend_change_percentage == 0 %>
+                  <% elsif stock.dividend_change_percentage > 0 %>
+                      <font color="green">&uArr;
+                  <% else %>
+                      <font color="red">&dArr;
+                  <% end %>
                 <%= stock.dividend_change_percentage.abs %>
               </td>
 
-              <% if stock.dgr.present? %>
-                <td class="font-weight-bold text-right" data-toggle="tooltip" data-placement="top" title="Dividend growth ratio 10-yr median %"><%= stock.dgr_median %></td>
-                <td class="font-weight-bold text-right" data-toggle="tooltip" data-placement="top" title="Most recent dividend increase %"><%= stock.dgr.mr_inc %></td>
-              <% end %>
-
-              <td class="font-weight-bold text-right" data-toggle="tooltip" data-placement="top" title="Dividend payout ratio %">
-                <%= stock.dividend_payout_ratio %>
-              </td>
+              <td class="font-weight-bold text-right" data-toggle="tooltip" data-placement="top" title="Return on invested capital"><%= stock.roic %></td>
+              <td class="font-weight-bold text-right" data-toggle="tooltip" data-placement="top" title="EV/EBIT"><%= stock.ev_to_ebit %></td>
+              <td class="font-weight-bold text-right" data-toggle="tooltip" data-placement="top" title="Dividend payout ratio %"><%= stock.dividend_payout_ratio %></td>
 
               <% if stock.dgr.present? %>
                 <td class="font-weight-bold text-right">

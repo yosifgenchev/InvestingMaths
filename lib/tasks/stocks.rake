@@ -173,7 +173,7 @@ namespace :stocks do
 
 	task update_stats: :environment do
 
-			file = SimpleXlsxReader.open('data/InvestingMaths_stats.xlsx')
+			file = SimpleXlsxReader.open(Rails.root.join('data', 'InvestingMaths_stats.xlsx'))
 
 			dgrs_stocks = file.sheets.first.rows
 			puts "#{dgrs_stocks}"

@@ -12,116 +12,31 @@
 
     <p/>
 
-<% 
-=begin %>y
-<% cache(@stocks) do %>
-  <% @stocks.each do |stock| %>
-      <% if stock.last_dividend_yield > 0 and stock.dgr.present? %>
-          <br>
+    <div class="row">
+      <div class="col">
+        <%= form_for_filterrific @filterrific do |f| %>
+          <div>
+            Search
+            <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
+            <%= f.select(:by_sector, @filterrific.select_options[:by_sector], { include_blank: 'All' }, class: 'filterrific-periodically-observed') %>
+            <%= f.text_field(
+              :search_query,
+              class: 'filterrific-periodically-observed'
+            ) %>
+              <%= render_filterrific_spinner %>
 
-      <div class="row">
-
-        <div class="col">
-          <p class="text-center"><%= link_to stock.symbol, "https://www.morningstar.com/stocks/XNYS/" + stock.symbol + "/quote.html", target: :_blank %></p>
-        </div>
-
-        <div class="col-md-2">
-            <%= stock.company_name %>
-        </div>
-
-        <div class="col">
-            <p class="text-center"><%= stock.sector %></p>
-        </div>
-
-        <div class="col">
-            <p class="text-center"><%= stock.industry %></p>
-        </div>
-
-        <div class="col">
-            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Dividend yield %"><%= stock.last_dividend_yield %></p>
-        </div>
-
-        <div class="col">
-            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Change in dividend yield % since yesterday">
-            <% if stock.dividend_change_percentage == 0 %>
-            <% elsif stock.dividend_change_percentage > 0 %>
-                <font color="green">&uArr;
-            <% else %>
-                <font color="red">&dArr;
-            <% end %>
-            <%= stock.dividend_change_percentage.abs %>
-          </p>
-
-                </font>
-        </div>
-
-        <% if stock.dgr.present? %>
-
-          <div class="col">
-            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Dividend growth ratio 10-yr median %"><%= stock.dgr_median %></p>
-          </div>
-          <div class="col">
-            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Most recent dividend increase %"><%= stock.dgr.mr_inc %></p>
           </div>
 
+          <%# add an automated spinner to your form when the list is refreshed %>
         <% end %>
-
-        <div class="col">
-            <p class="text-center" data-toggle="tooltip" data-placement="top" title="Dividend payout ratio %">
-            <% if stock.dividend_payout_ratio == 0 %>
-            <% elsif stock.dividend_payout_ratio < 60 %>
-                <font color="green">
-            <% else %>
-                <font color="red">
-            <% end %>
-            <%= stock.dividend_payout_ratio %>
-          </p>
-
-                </font>
-        </div>
-        <% if stock.dgr.present? %>
-
-          <div class="col">
-            <p class="text-center"><%= stock.im_index %></p>
-          </div>
-        
-        <% end %>
-
-        </div>
-
-      <% end %>
-
-    <% end %>
-<% end %>
-
-<% 
-=end %>
-
-<div class="row">
-  <div class="col">
-    <%= form_for_filterrific @filterrific do |f| %>
-      <div>
-        Search
-        <%# give the search field the 'filterrific-periodically-observed' class for live updates %>
-        <%= f.select(:by_sector, @filterrific.select_options[:by_sector], { include_blank: 'All' }, class: 'filterrific-periodically-observed') %>
-        <%= f.text_field(
-          :search_query,
-          class: 'filterrific-periodically-observed'
-        ) %>
-          <%= render_filterrific_spinner %>
-
       </div>
+    </div>
 
-      <%# add an automated spinner to your form when the list is refreshed %>
-    <% end %>
-  </div>
-</div>
+    <%= render(
+      partial: 'stocks/list',
+      locals: { stocks: @stocks }
+    ) %>
 
-<%= render(
-  partial: 'stocks/list',
-  locals: { stocks: @stocks }
-) %>
-
-<br>
+    <br>
 
 </div>

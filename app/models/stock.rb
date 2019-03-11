@@ -63,7 +63,6 @@ class Stock < ApplicationRecord
 
     Rails.cache.fetch(cache_key, expires_in: 1.hours) do
         if (dgr.present?)
-          # ((dgr.dgr_1 + dgr.dgr_3 + dgr.dgr_5 + dgr.dgr_10 + dgr.dgr_10)/5 + dgr.mr_inc + last_dividend_yield**2).round(1)
             (dgr_median + last_dividend_yield + last_dividend_yield*calculate).round(1)
         else
           0
@@ -110,6 +109,10 @@ class Stock < ApplicationRecord
   scope :sorted_by, ->(sort_option) {
     direction = /desc$/.match?(sort_option) ? "desc" : "asc"
     case sort_option.to_s
+    when /^ev_to_ebit/
+      order("stocks.ev_to_ebit #{direction}") 
+    when /^roic/
+      order("stocks.roic #{direction}")    
     when /^im_index/
       order("stocks.im_index #{direction}")
     when /^last_dividend_yield/
