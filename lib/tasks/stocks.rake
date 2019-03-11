@@ -170,4 +170,59 @@ namespace :stocks do
 			end
 		end
 	end
+
+	task update_stats: :environment do
+
+			file = SimpleXlsxReader.open('data/InvestingMaths_stats.xlsx')
+
+			dgrs_stocks = file.sheets.first.rows
+			puts "#{dgrs_stocks}"
+
+			counter = 0;
+			dgrs_stocks.each do |item|
+
+				symbol_data = item[2]
+				# puts "#{symbol_data}"
+
+				stock = Stock.find_by(symbol: symbol_data)
+
+
+				if stock.nil?
+					# puts "Missing object for #{symbol_data}"
+				else 
+					net_income = item[3]
+					total_dividends = item[4]
+					total_debt = item[5]
+					total_assets = item[6]
+					total_liabilities = item[7]
+
+					ebit = item[11]
+					ev = item[16]
+
+					stock.update_attribute(:net_income, net_income)
+					stock.update_attribute(:total_dividends, total_dividends)
+					stock.update_attribute(:total_debt, total_debt)
+					stock.update_attribute(:total_assets, total_assets)
+					stock.update_attribute(:total_liabilities, total_liabilities)
+
+					roic = ((net_income.to_f + total_dividends.to_f)/(total_debt.to_f + (total_assets.to_f - total_liabilities.to_f)) * 100).round(1)
+
+					counter = counter + 1;
+
+					puts "ROIC for #{symbol_data} is #{roic}"
+
+					stock.update_attribute(:roic, roic)
+
+					ev_to_ebit = (ev.to_f/ebit.to_f).round(2)
+
+					puts "EV/EBIT for #{symbol_data} is #{ev_to_ebit}"
+
+					stock.update_attribute(:ev_to_ebit, ev_to_ebit)
+
+				end
+			end
+			puts "Total stocks: #{counter}"
+
+	end
+
 end
