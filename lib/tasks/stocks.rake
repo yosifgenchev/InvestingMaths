@@ -225,4 +225,77 @@ namespace :stocks do
 
 	end
 
+	task update_dividend_yields: :environment do
+
+		above_2_dividend_yield_input_array = 
+				  ["SRCE,MMM,ABBV,ABM,AKR,ACU,AES,AFL,ADC,APD,AYR,ALK,ALX,ARE,ALE,LNT,ALL,AIMC,MO,AEE,AAT,ACC,AEP,AMT,AWK,APU,AMP,ABC,ATLO,AMGN,ADI,ANDX,AIV,AIT,WTR,ABR,ADM,AHH,AROW,ARTNA,AJG,ASB,AIZ,T,ATO,AUBN,ALV,ADP,AVB,AVY,AVA,AVX,AXS,BGS,BANF,BXS,BAC,BK,BKSC,OZK,BFIN,BANR,BHB,BSET,BBT,BMS,BBY,BIG,BKH,BLK,BA,BOKF,BPFH,EAT,BMY,BRX,AVGO,BIP,BPY,BEP,BMTC,BG,CFFI,CHRW,CBT,CATC,CPT,CAH,CTRE,CRI,CAT,CATY,FUN,CE,CNP,CPF,CAKE,CHFC,CVX",
+				   "CHS,PLCE,CB,CINF,CSCO,CFG,CHCO,CIVB,CWEN,CLX,CMS,CNO,KO,CVLY,CCOI,CNS,CL,COLB,CMCSA,CMA,CBU,CTBI,ED,COR,GLW,CBRL,CCI,CSGS,CUBE,CFR,CULP,CMI,CONE,DKL,DAL,DLR,DFS,D,UFS,DGICA,DGICB,PLOW,DEI,DOV,DTE,DUK,EBMT,EGP,EMN,ETN,EV,EIX,EE,EMCI,EMCF,EMR,ENB,ET,EPD,EVC,EPR,EQM,ELS,ERIE,ESCA,ESS,EVBN,EVR,RE,EVRG,ES,STAY,EXR,XOM,FAST,FFG,AGM,FRT,FNF,FITB,FISI,FAF,FNLC,BUSE,FBIZ,FCBC,FCCO,FDEF,THFF,FHN,FR,FIBK,FRME,FMBH,FMBI,FLIC,FLXS,FLO,FFIC,FL",
+				   "FBHS,BEN,GLPI,GLOP,GATX,GD,GIS,GPC,GEO,GTY,GBCI,GAIN,GT,GSBC,GBX,GFF,GFED,HAFC,THG,HOG,HRS,HIG,HAS,HVT,HWKN,HTA,HP,HNNA,HTBK,HFWA,MLHR,HSY,HI,HNI,HMLP,HEP,HBCP,HOMB,HD,HON,HOPE,HMN,HBNC,HPT,HPQ,HUBB,HBAN,IDA,ITW,INDB,IBCP,IR,INGR,IBOC,IBM,IFF,IP,IPG,IVZ,ISTR,ISBC,IRM,SJM,JCOM,JNJ,JCI,JPM,KALU,KAR,K,KW,KEQU,KEY,KMB,KIM,KINS,KRG,KLAC,KSS,KHC,LBAI,LKFN,LRCX,LAMR,LARK,LVS,LAZ,LTXB,LM,LEG,LXP,LSI,LECO,LNC,LIN,LMT,LYB,MCBC,MAC",
+				   "MFNC,MMP,MGA,MAIN,LOAN,MAN,MFC,MPC,VAC,MMC,MATX,MXIM,MBFI,MCD,MGRC,MDU,MPW,MDT,MBWM,MRK,MCY,MDP,MEOH,MET,MGEE,MPB,MAA,MOFG,MINI,MC,MDLZ,TYPE,MS,MPLX,MSM,MFSF,NDAQ,NKSH,NFG,NHI,NHC,NNN,NHTC,NBTB,NP,NTAP,NJR,NEWM,NRZ,NEE,NEP,NLSN,NI,NTRS,NFBK,NRIM,NWBI,NWN,NWE,NWFL,NUS,NUE,OXY,OCFC,OGE,ODC,ORI,OHI,OMC,OGS,OLP,OKE,OTTR,ORM,GLT,PCAR,PKG,PZZA,PKBK,PEGI,PDCO,PAYX,PBFX,PAG,PBCT,PEP,PETS,PFE,PM,PSX,PSXP,PNW,PNC,PNM,PII,POL,POR,PPL,APTS,PFBC",
+				   "PFG,PG,PLD,PB,PROV,PFS,PRU,PSB,PEG,QTS,QCOM,DGX,RTN,RMAX,O,REG,RF,RS,RBCAA,RSG,RECN,ROIC,REXR,RGCO,RBA,ROK,RCL,RPM,R,RHP,STBA,SBRA,SASR,BFS,SWM,SMG,SRE,SXT,BSRR,SIG,SFNC,SPG,SBGI,SIX,SWKS,SLG,SNA,SON,SOHO,SJI,SSB,SO,SBSI,SWX,SGB,SPTN,SR,SRLP,STAG,SGU,SBUX,STT,STLD,SCS,SYBT,INN,STI,SGC,SNV,SYY,TROW,SKT,TGT,TCO,AMTD,TEL,TRNO,TBNK,TXN,TFSL,HCKT,TRI,THO,TIF,TSBK,TKR,TMP,TOWN,TLP,TRV,TCBK,TRN,TSN,USB,UDR,UMPQ,UBSH,UNB,UNP",
+				   "UBCP,UBSI,UCBI,UCFC,UFCS,UPS,UTX,UVV,UHT,UNM,UBA,MTN,VLO,VTR,VZ,VFC,WPC,WBA,WMT,WAFD,WASH,WSO,WBS,WEC,WRI,WFC,WEN,WSBC,WTBA,WABC,WGP,WES,WLKP,WRK,WHG,WEYS,WY,WHR,WSM,WOR,WPP,WYND,XEL,YORW,ZION"]
+		
+		# above_2_dividend_yield_input_array = 
+		# 		  ["VTR,VZ,VFC,WPC,WBA,WMT,WAFD,WASH,WSO,WBS,WEC,WRI,WFC,WEN,WSBC,WTBA,WABC,WGP,WES,WLKP,WRK,WHG,WEYS,WY,WHR,WSM,WOR,WPP,WYND,XEL,YORW,ZION"]
+		
+		above_2_dividend_yield_input_array.each do |input|
+			input.split(',').each do |i|
+				# result = IexTradingApi.get_dividend_yield_stats(i)
+
+				# result = result * 100
+
+				stock = Stock.find_by(symbol: i)
+				# stock.update_attribute(:dividend_yield_last, stock.last_dividend_yield)
+				# stock.update_attribute(:dividend_yield, result.round(2))
+
+				change = (((stock.dividend_yield - stock.dividend_yield_last) * 100) / stock.dividend_yield).round(2).to_f
+
+				stock.update_attribute(:dividend_yield_change, change)
+				stock.save
+
+				puts "#{stock.symbol} last yield: #{stock.dividend_yield_last} | current yield #{stock.dividend_yield} | change #{stock.dividend_yield_change}"
+			end
+
+		end
+	end
+
+	task test: :environment do
+		input = ["AAPL,MMM"]
+		# counter = 0
+		# array = ""
+		input.each do |input2|
+			input2.split(',').each do |i|
+				result = IexTradingApi.get_dividend_yield_stats(i)
+				result = result * 100
+
+				stock = Stock.find_by(symbol: i)
+				stock.update_attribute(:dividend_yield_last, stock.last_dividend_yield)
+				stock.update_attribute(:dividend_yield, result.round(2))
+
+				change = stock.dividend_yield - stock.dividend_yield_last
+
+				stock.update_attribute(:dividend_yield_change, change)
+
+				puts "#{stock.symbol} last yield: #{stock.dividend_yield_last} | current yield #{stock.dividend_yield} | change #{stock.dividend_yield_change}"
+			end
+
+
+
+			# input2.split(',').each do |i|
+			# 	stock = Stock.find_by(symbol: i)
+
+			# 	if stock.present? && stock.last_dividend_yield > 2
+			# 		counter = counter + 1
+			# 		array = array + "#{stock.symbol},"
+			# 		if counter % 100 == 0
+			# 			puts "#{array}"
+			# 			array = ""
+			# 		end
+			# 		# puts "#{stock} #{stock.last_dividend_yield}"
+			# 	end
+			# end
+		end
+			# puts "#{counter}"
+			# puts "#{array}"
+	end
 end

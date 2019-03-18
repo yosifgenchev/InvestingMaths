@@ -26,7 +26,7 @@
     <tbody>
       <% cache(@stocks) do %>
         <% @stocks.each do |stock| %>
-          <% if stock.last_dividend_yield > 0 and stock.dgr.present? %>
+          <% if !stock.dividend_yield_change.nil? and stock.dgr.present? %>
             <tr>
               <td><%= link_to stock.symbol, "https://www.morningstar.com/stocks/XNYS/" + stock.symbol + "/quote.html", target: :_blank %></td>
               <td><%= stock.company_name %></td>
@@ -38,13 +38,13 @@
                 <%= stock.last_dividend_yield %>
               </td>
               <td class="font-weight-bold text-right" data-toggle="tooltip" data-placement="top" title="Change in dividend yield % since yesterday">
-                <% if stock.dividend_change_percentage == 0 %>
-                  <% elsif stock.dividend_change_percentage > 0 %>
+                <% if stock.dividend_yield_change == 0 %>
+                  <% elsif stock.dividend_yield_change > 0 %>
                       <font color="green">&uArr;
                   <% else %>
                       <font color="red">&dArr;
                   <% end %>
-                <%= stock.dividend_change_percentage.abs %>
+                <%= stock.dividend_yield_change.abs %>
               </td>
 
               <td class="font-weight-bold text-right" data-toggle="tooltip" data-placement="top" title="Return on invested capital"><%= stock.roic %></td>

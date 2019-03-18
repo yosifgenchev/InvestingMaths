@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_03_06_224133) do
+ActiveRecord::Schema.define(version: 2019_03_16_152326) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,9 @@ ActiveRecord::Schema.define(version: 2019_03_06_224133) do
     t.integer "total_liabilities"
     t.decimal "roic"
     t.decimal "ev_to_ebit"
+    t.decimal "dividend_yield"
+    t.decimal "dividend_yield_last"
+    t.decimal "dividend_yield_change", precision: 10, scale: 2
   end
 
   create_table "users", force: :cascade do |t|
